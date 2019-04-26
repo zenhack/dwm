@@ -1,5 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
+#include <X11/XF86keysym.h>
+
 /* appearance */
 static const char *fonts[] = {
 	"monospace:size=10"
@@ -63,8 +65,14 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "st", NULL };
 
+static const char *brighter_cmd[] = { "xbacklight", "-inc", "10", NULL };
+static const char *darker_cmd[] = { "xbacklight", "-inc", "10", NULL };
+
 static Key keys[] = {
 	/* modifier                     key        function        argument */
+	{ 0, 				XF86XK_MonBrightnessUp, spawn, {.v = brighter_cmd } },
+	{ 0, 				XF86XK_MonBrightnessDown, spawn, {.v = darker_cmd } },
+
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
